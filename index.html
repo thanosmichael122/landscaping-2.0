@@ -1,0 +1,79 @@
+import React, { useState } from 'react';
+
+export default function App() {
+  const [form, setForm] = useState({ name: '', email: '', service: '', date: '', message: '' });
+
+  const services = [
+    { title: 'Lawn Mowing', price: '$40 - $100', desc: 'Includes mowing, edging, and cleanup.' },
+    { title: 'Mulching & Garden Beds', price: '$100 - $300', desc: 'Beautify your garden with fresh mulch and design.' },
+    { title: 'Tree & Shrub Trimming', price: '$75 - $250', desc: 'Professional trimming to maintain healthy growth.' },
+    { title: 'Seasonal Cleanups', price: '$100 - $400', desc: 'Spring and fall yard cleanups for a fresh look.' },
+  ];
+
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setForm(prev => ({ ...prev, [name]: value }));
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    // In a real app you'd POST to your backend or email service here
+    alert(`Thanks ${form.name || 'there'}! We'll reach out to ${form.email || 'your email'} soon.`);
+    setForm({ name: '', email: '', service: '', date: '', message: '' });
+  }
+
+  return (
+    <div style={{ fontFamily: 'Arial, system-ui, sans-serif', color: '#1f2937', background: '#f8fafc', minHeight: '100vh' }}>
+      <header style={{ background: '#0f9d58', color: '#fff', padding: '36px 0', textAlign: 'center' }}>
+        <h1 style={{ margin: 0, fontSize: 32 }}>GreenScape Landscaping</h1>
+        <p style={{ margin: 4 }}>Reliable • Affordable • Professional</p>
+      </header>
+
+      <main style={{ maxWidth: 960, margin: '32px auto', padding: '0 16px' }}>
+        <section style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16 }}>
+          {services.map((s, i) => (
+            <div key={i} style={{ background: '#fff', borderRadius: 12, padding: 16, boxShadow: '0 6px 18px rgba(0,0,0,0.06)' }}>
+              <h2 style={{ margin: '0 0 8px' }}>{s.title}</h2>
+              <div style={{ color: '#047857', fontWeight: 700, marginBottom: 8 }}>{s.price}</div>
+              <p style={{ margin: 0 }}>{s.desc}</p>
+            </div>
+          ))}
+        </section>
+
+        <section style={{ background: '#fff', padding: 20, borderRadius: 12, marginTop: 24 }}>
+          <h2 style={{ marginTop: 0 }}>Get a Quote or Schedule</h2>
+
+          <form onSubmit={handleSubmit} style={{ display: 'grid', gap: 10, maxWidth: 600 }}>
+            <input name="name" placeholder="Your name" value={form.name} onChange={handleChange} required style={{ padding: 10, borderRadius: 8, border: '1px solid #d1d5db' }} />
+
+            <input name="email" placeholder="Email" type="email" value={form.email} onChange={handleChange} required style={{ padding: 10, borderRadius: 8, border: '1px solid #d1d5db' }} />
+
+            <select name="service" value={form.service} onChange={handleChange} required style={{ padding: 10, borderRadius: 8, border: '1px solid #d1d5db' }}>
+              <option value="">Select service</option>
+              {services.map((s, idx) => (
+                <option key={idx} value={s.title}>{s.title} ({s.price})</option>
+              ))}
+            </select>
+
+            <input name="date" placeholder="Preferred date (optional)" value={form.date} onChange={handleChange} style={{ padding: 10, borderRadius: 8, border: '1px solid #d1d5db' }} />
+
+            <textarea name="message" placeholder="Additional details" value={form.message} onChange={handleChange} rows={4} style={{ padding: 10, borderRadius: 8, border: '1px solid #d1d5db' }} />
+
+            <button type="submit" style={{ background: '#0f9d58', color: '#fff', padding: '10px 16px', borderRadius: 8, border: 'none', cursor: 'pointer' }}>Submit</button>
+          </form>
+        </section>
+
+        <section style={{ textAlign: 'center', marginTop: 24 }}>
+          <h3>Contact</h3>
+          <p>Email: contact@greenscape.com</p>
+          <p>Phone: (555) 123-4567</p>
+          <p>Hours: Mon - Sat, 8am - 6pm</p>
+        </section>
+      </main>
+
+      <footer style={{ background: '#047857', color: '#fff', textAlign: 'center', padding: 12 }}>
+        <small>&copy; {new Date().getFullYear()} GreenScape Landscaping. All rights reserved.</small>
+      </footer>
+    </div>
+  );
+}
